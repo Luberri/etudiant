@@ -1,8 +1,8 @@
 <?php
 Flight::register('db', 'PDO', array(
-    'pgsql:host=localhost;port=5432;dbname=rallye',
-    'postgres',        // ton utilisateur PostgreSQL
-    'admin'       // ton mot de passe
+    'mysql:host=localhost;port=3306;dbname=gestion_scolarite;charset=utf8',
+    'root',
+    'root'
 ), function ($db) {
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 });

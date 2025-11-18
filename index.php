@@ -3,9 +3,7 @@
 require_once 'flight/Flight.php';
 require __DIR__ . '/config/database.php';
 
-use App\Controllers\EquipageController;
 use App\Controllers\UserController;
-use App\Controllers\ResultatEpreuveController;
 use App\Controllers\EtudiantController;
 
 // Users
