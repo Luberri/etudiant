@@ -9,18 +9,14 @@ Fin 1. Déployer l'environnement(Luberri)
 2. WS : Notes Semestre
 
 Postman :
-- Créer une requête GET /notes/semestre/{semestre}/{idEtudiant}
+- Créer une requête GET /notes/@idEtudiant/@semestre
 
 Routing :
-- GET /notes/semestre/{semestre}
-    -> NoteController.getNotesBySemestre(semestre)
-- GET /notes/semestre/{semestre}/{idEtudiant}
-    -> NoteController.getNotesBySemestreAndEtudiant(semestre, idEtudiant)
+- GET /notes/@idEtudiant/@semestre
+    -> NoteController.getNotesByEtudiantAndSemestre($idEtudiant, $semestre)
 
 Fonctions (Note) :
-- getNotesBySemestre(semestre) :
-    -> Retourne toutes les notes liées aux matières du semestre donné.
-- getNotesBySemestreAndEtudiant(semestre, idEtudiant) :
+- getNotesByEtudiantAndSemestre(semestre, idEtudiant) :
     -> Retourne les notes d’un étudiant pour un semestre.
     -> Calcule :
          - moyenne du semestre = Σ(note * crédit) / Σ( crédits du semestre )
@@ -37,20 +33,11 @@ Postman :
 - Créer une requête GET /notes/annee/{idannee}/{idEtudiant}
 
 Routing :
-- GET /notes/annee/{idannee}
-    -> NoteController.getNotesAnneeL1()
 - GET /notes/annee/{idannee}/{idEtudiant}
     -> NoteController.getNotesAnneeL1ByEtudiant(idEtudiant)
 
 Fonctions:
-- getNotesAnnee() :
-    -> Retourne pour tous les étudiants :
-         - notes S1
-         - notes S2
-         - moyenne S1
-         - moyenne S2
-         - moyenne générale L1 = (moyS1 + moyS2) / 2
-- getNotesAnneeL1ByEtudiant(idEtudiant) :
+- getNotesAnnuelByEtudiant($idEtudiant, $annee):
     -> Même résultat mais pour 1 seul étudiant.
 
 Base :

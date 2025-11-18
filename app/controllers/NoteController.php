@@ -2,6 +2,7 @@
 namespace App\Controllers;
 
 use App\Models\Note;
+use Flight;
 
 class NoteController {
     private $model;
@@ -10,7 +11,6 @@ class NoteController {
         $this->model = new Note(\Flight::db());
     }
 
-    // Récupère toutes les notes
     public function getAllNotes() {
         try {
             $notes = $this->model->getAllNotes();
@@ -20,14 +20,40 @@ class NoteController {
         }
     }
 
-    public function getNotesByEtudiantAndSemestre($idEtudiant, $semestre) {
-        try {
-            $notes = $this->model->getNotesByEtudiantAndSemestre($idEtudiant, $semestre);
-            $this->sendResponse('success', $notes);
-        } catch (\Exception $e) {
-            $this->sendError(500, 'Erreur lors de la récupération des notes pour l\'étudiant et le semestre', $e->getMessage());
+        public function getNotesByEtudiantAndSemestre($idEtudiant, $semestre, $idOption = 1) {
+            try {
+                // Récupérer les notes
+                $notes = $this->model->getNotesByEtudiantAndSemestre($idEtudiant, $semestre, $idOption);
+    
+                // Calculer la moyenne
+                $moyenne = null;
+                if (!empty($notes)) {
+                    $total = 0;
+                    $count = count($notes);
+                    foreach ($notes as $n) {
+                        $total += $n['note'];
+                    }
+                    $moyenne = round($total / $count, 2);
+                }
+    
+                // Envoyer la réponse avec meta
+                Flight::json([
+                    'status' => 'success',
+                    'data' => $notes,
+                    'meta' => [
+                        'moyenne' => $moyenne
+                    ]
+                ]);
+    
+            } catch (\Exception $e) {
+                Flight::json([
+                    'status' => 'error',
+                    'message' => 'Erreur lors de la récupération des notes',
+                    'details' => $e->getMessage()
+                ], 500);
+            }
         }
-    }
+    
 
     public function addNote() {
         try {
@@ -68,4 +94,27 @@ class NoteController {
             'meta' => null
         ], $code);
     }
+    
+    public function getNotesAnnuelByEtudiant($idEtudiant, $annee, $idOption = 1) {
+        try {
+            $notes = $this->model->getNotesAnnuelByEtudiant($idEtudiant, $annee, $idOption);
+            $moyenne = $this->model->getMoyenneAnnuel($idEtudiant, $annee, $idOption);
+    
+            Flight::json([
+                'status' => 'success',
+                'data' => $notes,
+                'meta' => [
+                    'moyenne_annuelle' => round($moyenne, 2)
+                ]
+            ]);
+        } catch (\Exception $e) {
+            Flight::json([
+                'status' => 'error',
+                'message' => 'Erreur lors de la récupération des notes annuelles',
+                'details' => $e->getMessage()
+            ], 500);
+        }
+    }
+    
+
 }

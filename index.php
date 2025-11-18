@@ -15,8 +15,16 @@ Flight::route('PUT /users/@id', [UserController::class, 'update']);
 Flight::route('DELETE /users/@id', [UserController::class, 'delete']);
 
 Flight::route('GET /notes', [NoteController::class, 'getAllNotes']); // Récupérer toutes les notes
-Flight::route('GET /notes/@idEtudiant/@semestre', [NoteController::class, 'getNotesByEtudiantAndSemestre']); // Récupérer les notes d'un étudiant pour un semestre
+Flight::route('GET /notes/@idEtudiant/@semestre', function($idEtudiant, $semestre){
+    $controller = new NoteController();
+    $controller->getNotesByEtudiantAndSemestre($idEtudiant, $semestre);
+});
 Flight::route('POST /notes', [NoteController::class, 'addNote']); // Ajouter une nouvelle note
+
+Flight::route('GET /notes/annuel/@idEtudiant/@annee', function($idEtudiant, $annee){
+    $controller = new NoteController();
+    $controller->getNotesAnnuelByEtudiant($idEtudiant, $annee);
+});
 
 // Etudiants
 // Flight::route('GET /etudiants', [EtudiantController::class, 'getAll']);

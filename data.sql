@@ -145,3 +145,60 @@ INSERT INTO note (idAvancement, idMatiere, note) VALUES
 (10, 10, 15.0),
 (10, 11, 13.0),
 (10, 12, 14.0);
+
+
+-- Avancement pour S3
+INSERT INTO avancement (idEtudiant, semestre, idSession) VALUES
+(1, 'S3', 3),
+(2, 'S3', 3);
+
+-- Avancement pour S4
+INSERT INTO avancement (idEtudiant, semestre, idSession) VALUES
+(1, 'S4', 3),
+(2, 'S4', 3);
+
+-- Notes pour S3 (étudiant 1 et 2)
+-- idMatiere pour S3 : 13 à 18
+-- Étudiant 1 (idAvancement = 11)
+INSERT INTO note (idAvancement, idMatiere, note) VALUES
+(11, 13, 15.0),
+(11, 14, 14.5),
+(11, 15, 13.0),
+(11, 16, 16.0),
+(11, 17, 14.0),
+(11, 18, 15.5);
+
+-- Étudiant 2 (idAvancement = 12)
+INSERT INTO note (idAvancement, idMatiere, note) VALUES
+(12, 13, 14.0),
+(12, 14, 13.5),
+(12, 15, 12.0),
+(12, 16, 15.0),
+(12, 17, 13.5),
+(12, 18, 14.0);
+
+-- Notes pour S4 (étudiant 1 et 2)
+-- idMatiere pour S4 : 19 à 27
+-- Étudiant 1 (idAvancement = 13)
+INSERT INTO note (idAvancement, idMatiere, note) VALUES
+(13, 19, 15.0),
+(13, 20, 14.5),
+(13, 21, 13.0),
+(13, 22, 16.0),
+(13, 23, 15.5),
+(13, 24, 14.0),
+(13, 25, 13.5),
+(13, 26, 15.0),
+(13, 27, 14.0);
+
+-- Étudiant 2 (idAvancement = 14)
+INSERT INTO note (idAvancement, idMatiere, note) VALUES
+(14, 19, 14.0),
+(14, 20, 13.5),
+(14, 21, 12.0),
+(14, 22, 15.0),
+(14, 23, 14.5),
+(14, 24, 13.0),
+(14, 25, 12.5),
+(14, 26, 14.0),
+(14, 27, 13.5);
