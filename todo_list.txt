@@ -1,0 +1,12 @@
+ TODO List
+
+ 1. Déployer l'environnement
+  - Configurer l'environnement de développement avec Docker.
+  - Déployer les images Docker pour PHP et MySQL.
+  - Vérifier que les conteneurs communiquent correctement.
+
+ 2. Créer la base de données
+  - Concevoir la base de données .
+  - Écrire le script SQL pour créer les tables et insérer les données initiales.
+  - Tester la connexion entre l'application PHP et la base de données MySQL.
+
