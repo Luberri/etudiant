@@ -1,10 +1,7 @@
-FROM docker_test-php:latest
+FROM php:8.2-cli
 
-# Installer PDO MySQL si ton image ne l'a pas encore
-RUN docker-php-ext-install pdo pdo_mysql
-
-# Définir le dossier de travail
+# Définir le dossier de travail dans le container
 WORKDIR /var/www/html
 
-# Copier ton projet dans le container
-COPY . /var/www/html
+# Tu peux installer des extensions PHP si besoin, par exemple :
+# RUN docker-php-ext-install mysqli pdo pdo_mysql

@@ -1,22 +1,21 @@
-version: '3.8'
-
 services:
   php:
-    build: .
+    image: docker_test-php:latest
+    container_name: php_server
     ports:
       - "8080:80"
     volumes:
-      - .:/var/www/html
+      - /g/S5/ConcObj-Tahina/etudiant:/var/www/html
     depends_on:
       - db
+    command: php -S 0.0.0.0:80 -t /var/www/html
 
   db:
     image: mysql:8.0
     container_name: mysql_container
     environment:
-      MYSQL_ROOT_PASSWORD: root   # mot de passe root défini ici
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: gestion_scolarite
-      # MYSQL_USER et MYSQL_PASSWORD si tu veux créer un user autre que root
     ports:
       - "3306:3306"
     volumes:
