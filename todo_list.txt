@@ -1,12 +1,61 @@
- TODO List
+TODO List
 
- 1. Déployer l'environnement
+Fin 1. Déployer l'environnement(Luberri) 
   - Configurer l'environnement de développement avec Docker.
   - Déployer les images Docker pour PHP et MySQL.
   - Vérifier que les conteneurs communiquent correctement.
 
- 2. Créer la base de données
-  - Concevoir la base de données .
-  - Écrire le script SQL pour créer les tables et insérer les données initiales.
-  - Tester la connexion entre l'application PHP et la base de données MySQL.
+    
+2. WS : Notes Semestre
 
+Postman :
+- Créer une requête GET /notes/semestre/{semestre}/{idEtudiant}
+
+Routing :
+- GET /notes/semestre/{semestre}
+    -> NoteController.getNotesBySemestre(semestre)
+- GET /notes/semestre/{semestre}/{idEtudiant}
+    -> NoteController.getNotesBySemestreAndEtudiant(semestre, idEtudiant)
+
+Fonctions (Note) :
+- getNotesBySemestre(semestre) :
+    -> Retourne toutes les notes liées aux matières du semestre donné.
+- getNotesBySemestreAndEtudiant(semestre, idEtudiant) :
+    -> Retourne les notes d’un étudiant pour un semestre.
+    -> Calcule :
+         - moyenne du semestre = Σ(note * crédit) / Σ( crédits du semestre )
+
+Base:
+- Note(idNote, idAvancement, note, idMatiere)
+- Avancement(idAvancement, idEtudiant, semestre, idSession)
+- Matiere(idMatiere, nom, UE)
+- Credit(idCredit, idMatiere, semestre, credit)
+
+3. WS : Notes L1 
+
+Postman :
+- Créer une requête GET /notes/annee/{idannee}/{idEtudiant}
+
+Routing :
+- GET /notes/annee/{idannee}
+    -> NoteController.getNotesAnneeL1()
+- GET /notes/annee/{idannee}/{idEtudiant}
+    -> NoteController.getNotesAnneeL1ByEtudiant(idEtudiant)
+
+Fonctions:
+- getNotesAnnee() :
+    -> Retourne pour tous les étudiants :
+         - notes S1
+         - notes S2
+         - moyenne S1
+         - moyenne S2
+         - moyenne générale L1 = (moyS1 + moyS2) / 2
+- getNotesAnneeL1ByEtudiant(idEtudiant) :
+    -> Même résultat mais pour 1 seul étudiant.
+
+Base :
+- Note(idNote, idAvancement, note, idMatiere)
+- Avancement(idAvancement, idEtudiant, semestre, idSession)
+- Matiere(idMatiere, nom, UE)
+- Credit(idCredit, idMatiere, semestre, credit)
+- Etudiant(id, ETU, nom, prenom, dtn)
