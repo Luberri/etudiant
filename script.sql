@@ -44,7 +44,7 @@ CREATE TABLE avancement (
     FOREIGN KEY (idSession) REFERENCES session(idSession)
 );
 
-CREATE TABLE option_ (
+CREATE TABLE option (
     idOption INT AUTO_INCREMENT PRIMARY KEY,
     nom VARCHAR(100)
 );
