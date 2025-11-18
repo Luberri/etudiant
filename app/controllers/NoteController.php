@@ -1,4 +1,4 @@
-<?php
+<?php 
 namespace App\Controllers;
 
 use App\Models\Note;
@@ -20,49 +20,43 @@ class NoteController {
         }
     }
 
-        public function getNotesByEtudiantAndSemestre($idEtudiant, $semestre, $idOption = 1) {
-            try {
-                // Récupérer les notes
-                $notes = $this->model->getNotesByEtudiantAndSemestre($idEtudiant, $semestre, $idOption);
-    
-                // Calculer la moyenne
-                $moyenne = null;
-                if (!empty($notes)) {
-                    $total = 0;
-                    $count = count($notes);
-                    foreach ($notes as $n) {
-                        $total += $n['note'];
-                    }
-                    $moyenne = round($total / $count, 2);
+    public function getNotesByEtudiantAndSemestre($idEtudiant, $semestre, $idOption) {
+        try {
+            $notes = $this->model->getNotesByEtudiantAndSemestre($idEtudiant, $semestre, $idOption);
+
+            $moyenne = null;
+            if (!empty($notes)) {
+                $total = 0;
+                $totalCredits = 0;
+                foreach ($notes as $n) {
+                    $total += $n['note'] * $n['credit'];
+                    $totalCredits += $n['credit'];
                 }
-    
-                // Envoyer la réponse avec meta
-                Flight::json([
-                    'status' => 'success',
-                    'data' => $notes,
-                    'meta' => [
-                        'moyenne' => $moyenne
-                    ]
-                ]);
-    
-            } catch (\Exception $e) {
-                Flight::json([
-                    'status' => 'error',
-                    'message' => 'Erreur lors de la récupération des notes',
-                    'details' => $e->getMessage()
-                ], 500);
+                $moyenne = $totalCredits > 0 ? round($total / $totalCredits, 2) : null;
             }
+
+            $this->sendResponse('success', $notes, ['moyenne' => $moyenne]);
+        } catch (\Exception $e) {
+            $this->sendError(500, 'Erreur lors de la récupération des notes', $e->getMessage());
         }
-    
+    }
+
+    public function getNotesAnnuelByEtudiant($idEtudiant, $annee, $idOption) {
+        try {
+            $notes = $this->model->getNotesAnnuelByEtudiant($idEtudiant, $annee, $idOption);
+            $moyenne = $this->model->getMoyenneAnnuel($idEtudiant, $annee, $idOption);
+
+            $this->sendResponse('success', $notes, ['moyenne_annuelle' => round($moyenne, 2)]);
+        } catch (\Exception $e) {
+            $this->sendError(500, 'Erreur lors de la récupération des notes annuelles', $e->getMessage());
+        }
+    }
 
     public function addNote() {
         try {
             $data = \Flight::request()->data->getData();
-            $success = $this->model->addNote(
-                $data['idAvancement'],
-                $data['idMatiere'],
-                $data['note']
-            );
+            $success = $this->model->addNote($data['idAvancement'], $data['idMatiere'], $data['note']);
+
             if ($success) {
                 $this->sendResponse('success', ['message' => 'Note ajoutée avec succès']);
             } else {
@@ -94,27 +88,4 @@ class NoteController {
             'meta' => null
         ], $code);
     }
-    
-    public function getNotesAnnuelByEtudiant($idEtudiant, $annee, $idOption = 1) {
-        try {
-            $notes = $this->model->getNotesAnnuelByEtudiant($idEtudiant, $annee, $idOption);
-            $moyenne = $this->model->getMoyenneAnnuel($idEtudiant, $annee, $idOption);
-    
-            Flight::json([
-                'status' => 'success',
-                'data' => $notes,
-                'meta' => [
-                    'moyenne_annuelle' => round($moyenne, 2)
-                ]
-            ]);
-        } catch (\Exception $e) {
-            Flight::json([
-                'status' => 'error',
-                'message' => 'Erreur lors de la récupération des notes annuelles',
-                'details' => $e->getMessage()
-            ], 500);
-        }
-    }
-    
-
 }

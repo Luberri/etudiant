@@ -68,7 +68,7 @@ class Note {
             ':note' => $note
         ]);
     }
-    public function getMoyenne($idEtudiant, $semestre, $idOption = 1) {
+    public function getMoyenne($idEtudiant, $semestre, $idOption) {
         $sql = "SELECT AVG(n.note) AS moyenne
                 FROM note n
                 JOIN avancement a ON n.idAvancement = a.idAvancement
@@ -87,7 +87,7 @@ class Note {
         return $result['moyenne'] ?? null;
     }
 
-    public function getNotesAnnuelByEtudiant($idEtudiant, $annee, $idOption = 1) {
+    public function getNotesAnnuelByEtudiant($idEtudiant, $annee, $idOption) {
         $semestres = [];
         if ($annee == 1) {
             $semestres = ['S1', 'S2'];
@@ -97,7 +97,6 @@ class Note {
             return [];
         }
     
-        // Récupérer toutes les notes pour les semestres sélectionnés
         $in  = str_repeat('?,', count($semestres) - 1) . '?';
         $sql = "SELECT 
                     n.idNote,

@@ -1,48 +1,78 @@
 TODO List
 
-Fin 1. Déployer l'environnement(Luberri) 
-  - Configurer l'environnement de développement avec Docker.
-  - Déployer les images Docker pour PHP et MySQL.
-  - Vérifier que les conteneurs communiquent correctement.
+Fini 1. Déployer l'environnement(Luberri) 
+    - Configurer l'environnement de développement avec Docker.
+    - Déployer les images Docker pour PHP et MySQL.
+    - Vérifier que les conteneurs communiquent correctement.
 
-    
-2. WS : Notes Semestre
+Fini 2. WS : Notes Semestre(Safidy)
 
-Postman :
-- Créer une requête GET /notes/@idEtudiant/@semestre
+    Postman :
+    - Créer une requête GET /notes/@idEtudiant/@semestre
 
-Routing :
-- GET /notes/@idEtudiant/@semestre
-    -> NoteController.getNotesByEtudiantAndSemestre($idEtudiant, $semestre)
+    Routing :
+    - GET /notes/@idEtudiant/@semestre
+        -> NoteController.getNotesByEtudiantAndSemestre($idEtudiant, $semestre)
 
-Fonctions (Note) :
-- getNotesByEtudiantAndSemestre(semestre, idEtudiant) :
-    -> Retourne les notes d’un étudiant pour un semestre.
-    -> Calcule :
-         - moyenne du semestre = Σ(note * crédit) / Σ( crédits du semestre )
+    Fonctions (Note) :
+    - getNotesByEtudiantAndSemestre(semestre, idEtudiant) :
+        -> Retourne les notes d’un étudiant pour un semestre.
+        -> Calcule :
+            - moyenne du semestre = Σ(note * crédit) / Σ( crédits du semestre )
+        -> avec gestion erreur
 
-Base:
-- Note(idNote, idAvancement, note, idMatiere)
-- Avancement(idAvancement, idEtudiant, semestre, idSession)
-- Matiere(idMatiere, nom, UE)
-- Credit(idCredit, idMatiere, semestre, credit)
+    Base:
+    - Note(idNote, idAvancement, note, idMatiere)
+    - Avancement(idAvancement, idEtudiant, semestre, idSession)
+    - Matiere(idMatiere, nom, UE)
+    - Credit(idCredit, idMatiere, semestre, credit)
 
-3. WS : Notes L1 
+Fini 3. WS : Notes Annuel (Safidy)
 
-Postman :
-- Créer une requête GET /notes/annee/{idannee}/{idEtudiant}
+    Postman :
+    - Créer une requête GET /notes/annee/{idannee}/{idEtudiant}
 
-Routing :
-- GET /notes/annee/{idannee}/{idEtudiant}
-    -> NoteController.getNotesAnneeL1ByEtudiant(idEtudiant)
+    Routing :
+    - GET /notes/annee/{idannee}/{idEtudiant}
+        -> NoteController.getNotesAnneeL1ByEtudiant(idEtudiant)
 
-Fonctions:
-- getNotesAnnuelByEtudiant($idEtudiant, $annee):
-    -> Même résultat mais pour 1 seul étudiant.
+    Fonctions:
+    - getNotesAnnuelByEtudiant($idEtudiant, $annee):
+        -> Même résultat mais pour 1 seul étudiant.
+        -> avec gestion erreur
+        -> avec moyenne dans meta
 
-Base :
-- Note(idNote, idAvancement, note, idMatiere)
-- Avancement(idAvancement, idEtudiant, semestre, idSession)
-- Matiere(idMatiere, nom, UE)
-- Credit(idCredit, idMatiere, semestre, credit)
-- Etudiant(id, ETU, nom, prenom, dtn)
+    Base :
+    - Note(idNote, idAvancement, note, idMatiere)
+    - Avancement(idAvancement, idEtudiant, semestre, idSession)
+    - Matiere(idMatiere, nom, UE)
+    - Credit(idCredit, idMatiere, semestre, credit)
+    - Etudiant(id, ETU, nom, prenom, dtn)
+
+4. Authentification avec login et token(Safidy)
+
+    Postman :
+    - Créer une requête POST /login avec les champs email et mot de passe.
+    - Tester la génération et la validation du token.
+
+    Routing :
+    - POST /login
+        -> AuthController.login($email, $password)
+    - Middleware pour vérifier le token sur les routes protégées.
+
+    Fonctions :
+    - login($email, $password) :
+        -> Vérifie les identifiants de l'utilisateur.
+        -> Génère un token JWT si les identifiants sont valides.
+    - validateToken($token) :
+        -> Vérifie la validité du token pour les requêtes protégées.
+
+    Base :
+    - User(id, email, password_hash, role)
+
+5. Configuration de Postman (Lub)
+
+    - Créer une collection Postman pour regrouper toutes les requêtes.
+    - Ajouter des variables d'environnement (ex. base_url, token).
+    - Configurer les tests automatiques pour vérifier les réponses (status, data, error).
+    - Documenter chaque endpoint avec des exemples de requêtes et de réponses.
